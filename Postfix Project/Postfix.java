@@ -12,15 +12,35 @@ public class Postfix
         for(int i = 0; i < length; i++)
         {
             char nextCharacter = infix.charAt(i);
+            char topOperator;
             if(isVariable(nextCharacter))
             {
-                // TODO
+                postfix.append(nextCharacter);
             }
             else
             {
                 switch(nextCharacter)
                 {
-                    // TODO
+                       case '^':
+                        operatorStack.push(nextCharacter);
+                        break;
+                    case '+': case '-': case '*': case '/':
+                        while (!operatorStack.isEmpty() && getPrecedence(nextCharacter) <= getPrecedence(operatorStack.peek())){
+                            postfix.append(operatorStack.peek());
+                            operatorStack.pop();
+                        }
+                        operatorStack.push(nextCharacter);
+                        break;
+                    case '(':
+                        operatorStack.push(nextCharacter);
+                        break;
+                    case ')':
+                        topOperator = operatorStack.pop();
+                        while (topOperator != '(');
+                    {
+                        postfix.append(topOperator);
+                        topOperator = operatorStack.pop();
+                    }
                     default:
                         break;
                 }
