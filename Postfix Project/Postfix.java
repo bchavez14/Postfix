@@ -32,8 +32,24 @@ public class Postfix
 
     public static int evaluatePostfix(String postfix)
     {
-        // TODO
-        return 0;
+        //for each variable, we push it into the stack created in the method
+        StackInterface<Integer> postStack = new LinkedStack<>();
+        int i;
+        int holder;
+        int result;
+        //for loop differentiates variables from operators
+        for (i = 0; i < postfix.length(); i++){
+            if (isVariable(postfix.charAt(i)) == true){
+                holder = getValue(postfix.charAt(i));
+                postStack.push(holder);
+            }
+            if (isOperator(postfix.charAt(i))){
+                result = performOperation(postStack.pop(), postStack.pop(), postfix.charAt(i));
+                postStack.push(result);
+            }
+            //return final remaining value, which represents the total of the function
+        }
+        return (postStack.pop());
     }
 
     private static int getValue(Character c)
@@ -58,7 +74,25 @@ public class Postfix
 
     private static int performOperation(int operandOne, int operandTwo, char operator)
     {
-        // TODO
+         // each case for the possible operators passed into the function and performed on the operands
+        switch (operator) {
+            case '+':
+                int total;
+                total = operandOne + operandTwo;
+                return total;
+            case '-':
+                total = operandOne - operandTwo;
+                return total;
+            case '*':
+                total = operandOne * operandTwo;
+                return total;
+            case '/':
+                total = operandOne / operandTwo;
+                return total;
+            default:
+                return 0;
+        }
+        //return the total calculated depending on the case
         return 0;
     }
 
